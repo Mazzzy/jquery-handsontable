@@ -1244,7 +1244,7 @@ Handsontable.Core = function (rootElement, userSettings) {
 
   this.getCopyableData = function (startRow, startCol, endRow, endCol) {
     return datamap.getCopyableText(new WalkontableCellCoords(startRow, startCol), new WalkontableCellCoords(endRow, endCol));
-  }
+  };
 
   /**
    * Update settings

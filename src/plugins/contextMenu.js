@@ -46,7 +46,7 @@
     } else {
       for(var row = range.from.row; row<= range.to.row; row++) {
         for (var col = range.from.col; col <= range.to.col; col++) {
-          console.log("%d, %d", row, col);
+//          console.log("%d, %d", row, col);
           doAlign.call(this,row, col, type, alignment);
         }
       }

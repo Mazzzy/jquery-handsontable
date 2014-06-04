@@ -87,9 +87,99 @@
           disabled: function () {
             return this.undoRedo && !this.undoRedo.isRedoAvailable();
           }
+        },
+        "hsep4": ContextMenu.SEPARATOR,
+        'make_read_only': {
+          name: function() {
+              var selectedCells = this.getSelected(),
+              lastReadOnly = null,
+              currentReadOnly,
+              lockConsistent,
+              tmp;
+
+              if(selectedCells[0] > selectedCells[2]) { 
+                tmp = selectedCells[0]; 
+                selectedCells[0] = selectedCells[2]; 
+                selectedCells[2] = tmp;
+              }
+              if(selectedCells[1] > selectedCells[3]) { 
+                tmp = selectedCells[1]; 
+                selectedCells[1] = selectedCells[3]; 
+                selectedCells[3] = tmp;
+              }
+
+            lockConsistent = contextMenu.checkSelectionReadOnlyConsistency(this);
+
+            if(lockConsistent.status && !lockConsistent.value) {
+              return "Make read-only";
+            } else {
+              return "Make writable";
+            }
+          },
+          callback: function() {
+            var selectedCells = this.getSelected(),
+            lockConsistent,
+            tmp;
+
+            if(selectedCells[0] > selectedCells[2]) { 
+              tmp = selectedCells[0]; 
+              selectedCells[0] = selectedCells[2]; 
+              selectedCells[2] = tmp;
+            }
+            if(selectedCells[1] > selectedCells[3]) { 
+              tmp = selectedCells[1]; 
+              selectedCells[1] = selectedCells[3]; 
+              selectedCells[3] = tmp;
+            }
+
+            lockConsistent = contextMenu.checkSelectionReadOnlyConsistency(this);
+
+              for(var i = selectedCells[0]; i <= selectedCells[2]; i++) {
+                for(var j = selectedCells[1]; j <= selectedCells[3]; j++) {
+                  this.getCellMeta(i,j).readOnly = lockConsistent.status ? !this.getCellMeta(i,j).readOnly : false;
+                }
+              }
+
+            this.render();
+          }
         }
 
       }
+    };
+
+    this.checkSelectionReadOnlyConsistency = function(hot) {
+      var selectedCells = hot.getSelected(),
+      lastReadOnly = null,
+      currentReadOnly,
+      lockConsistency, 
+      tmp;
+
+      if(selectedCells[0] > selectedCells[2]) { 
+        tmp = selectedCells[0]; 
+        selectedCells[0] = selectedCells[2]; 
+        selectedCells[2] = tmp;
+      }
+      if(selectedCells[1] > selectedCells[3]) { 
+        tmp = selectedCells[1]; 
+        selectedCells[1] = selectedCells[3]; 
+        selectedCells[3] = tmp;
+      }
+
+      for(var i = selectedCells[0]; i <= selectedCells[2]; i++) {
+        for(var j = selectedCells[1]; j <= selectedCells[3]; j++) {
+          currentReadOnly = hot.getCellMeta(i,j).readOnly;
+
+          if(lastReadOnly === null || lastReadOnly === currentReadOnly) {
+            lockConsistency = true;
+          } else {
+            lockConsistency = false;
+            return {status: lockConsistency, value: lastReadOnly};
+          }
+          lastReadOnly = currentReadOnly;
+        }
+      }
+
+      return {status: lockConsistency, value: lastReadOnly};
     };
 
     Handsontable.hooks.run(instance, 'afterContextMenuDefaultOptions', this.defaultOptions);

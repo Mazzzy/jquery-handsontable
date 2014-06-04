@@ -874,6 +874,7 @@ Handsontable.Core = function (rootElement, userSettings) {
 
     instance.forceFullRender = true; //used when data was changed
     grid.adjustRowsAndCols();
+    Handsontable.hooks.run(instance, 'beforeChangeRender', changes, source);
     selection.refreshBorders(null, true);
     Handsontable.hooks.run(instance, 'afterChange', changes, source || 'edit');
   }
@@ -1688,7 +1689,7 @@ Handsontable.Core = function (rootElement, userSettings) {
         return priv.settings.colHeaders(col);
       }
       else if (priv.settings.colHeaders && typeof priv.settings.colHeaders !== 'string' && typeof priv.settings.colHeaders !== 'number') {
-        return Handsontable.helper.spreadsheetColumnLabel(baseCol); //see #1458
+        return Handsontable.helper.spreadsheetColumnLabel(baseCol);
       }
       else {
         return priv.settings.colHeaders;

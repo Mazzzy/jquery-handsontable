@@ -88,8 +88,7 @@
 
           <p>
             <button name="dump" data-dump="#example1" title="Prints current data source to Firebug/Chrome Dev Tools">
-              Dump
-              data to console
+              Dump data to console
             </button>
           </p>
         </div>
@@ -112,7 +111,30 @@
                 {row: 1, col: 1, rowspan: 3, colspan: 3},
                 {row: 3, col: 4, rowspan: 2, colspan: 2}
               ],
-              nativeScrollbars: true
+              nativeScrollbars: true,
+
+              afterCellMetaReset: function() {
+                this.setCellMeta(0, 0, "className", "htCenter");
+                this.setCellMeta(1, 1, "className", "htBottom");
+              }
+
+//              contextMenu: {
+//                items: {
+//                  text_right: {
+//                    name: 'text right',
+//                    callback: function () {
+//                      var cell = this.getSelected(),
+//                          className = this.getCellMeta(cell[0], cell[1], 'className');
+//
+//                      className.replace('')
+//
+//                      this.setCellMeta(cell[0], cell[1], 'className', 'htRight');
+//                      this.render();
+//                    }
+//
+//                  }
+//                }
+//              }
             });
           </script>
         </div>

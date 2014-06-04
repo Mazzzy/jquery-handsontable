@@ -87,6 +87,71 @@
           disabled: function () {
             return this.undoRedo && !this.undoRedo.isRedoAvailable();
           }
+        },
+        "hsep4": ContextMenu.SEPARATOR,
+        'horizontal_align_left': {
+          name:'Text left',
+          callback: function () {
+
+          },
+          disabled: function () {
+            return false;
+          }
+        },
+        'horizontal_align_center': {
+          name:'Text center',
+          callback: function () {
+
+          },
+          disabled: function () {
+            return false;
+          }
+        },
+        'horizontal_align_right': {
+          name:'Text right',
+          callback: function () {
+
+          },
+          disabled: function () {
+            return false;
+          }
+        },
+        'horizontal_align_justify': {
+          name:'Text justify',
+          callback: function () {
+
+          },
+          disabled: function () {
+            return false;
+          }
+        },
+        "hsep5": ContextMenu.SEPARATOR,
+        'vertical_align_top':{
+          name:'Text top',
+          callback: function () {
+
+          },
+          disabled: function () {
+            return false;
+          }
+        },
+        'vertical_align_middle':{
+          name:'Text middle',
+          callback: function () {
+
+          },
+          disabled: function () {
+            return false;
+          }
+        },
+        'vertical_align_bottom':{
+          name:'Text bottom',
+          callback: function () {
+
+          },
+          disabled: function () {
+            return false;
+          }
         }
 
       }

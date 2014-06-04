@@ -104,8 +104,7 @@ module.exports = function (grunt) {
         'src/plugins/dragToScroll/dragToScroll.js',
         'src/plugins/copyPaste.js',
         'src/plugins/search.js',
-        'src/plugins/mergeCells/mergeCells.js',
-        'src/plugins/alignCell/alignCell.js'
+        'src/plugins/mergeCells/mergeCells.js'
       ],
       walkontable: [
         'src/3rdparty/walkontable/src/*.js',

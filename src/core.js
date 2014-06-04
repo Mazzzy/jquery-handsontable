@@ -1510,7 +1510,10 @@ Handsontable.Core = function (rootElement, userSettings) {
 	 *
 	 * @param {Number} row
 	 * @param {Number} col
-	 */
+   * @param {String} key
+   * @param {String} val
+   *
+   */
 	this.setCellMeta = function (row, col, key, val) {
 		if (!priv.cellSettings[row]) {
 			priv.cellSettings[row] = [];

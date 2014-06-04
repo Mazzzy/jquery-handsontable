@@ -1,6 +1,58 @@
 (function (Handsontable) {
   'use strict';
 
+  function prepareVerticalAlignClass (className, alignment) {
+    className =  className
+      .replace('htTop','')
+      .replace('htMiddle','')
+      .replace('htBottom','')
+      .replace('  ','');
+
+    className += " " + alignment;
+    return className;
+  }
+
+  function prepareHorizontalAlignClass (className, alignment) {
+    className =  className
+      .replace('htLeft','')
+      .replace('htCenter','')
+      .replace('htRight','')
+      .replace('htJustify','')
+      .replace('  ','');
+
+    className += " " + alignment;
+    return className;
+  }
+
+  function doAlign (row, col, type, alignment) {
+      var cellMeta = this.getCellMeta(row, col),
+        className = alignment;
+
+      if (cellMeta.className) {
+        if(type === 'vertical') {
+          className = prepareVerticalAlignClass(cellMeta.className, alignment);
+        } else {
+          className = prepareHorizontalAlignClass(cellMeta.className, alignment);
+        }
+      }
+
+      this.setCellMeta(row, col, 'className',className);
+      this.render();
+  }
+
+  function align (range, type, alignment) {
+    if (range.from.row == range.to.row && range.from.col == range.to.col){
+      doAlign.call(this,range.from.row, range.from.col, type, alignment);
+    } else {
+      for(var row = range.from.row; row<= range.to.row; row++) {
+        for (var col = range.from.col; col <= range.to.col; col++) {
+          console.log("%d, %d", row, col);
+          doAlign.call(this,row, col, type, alignment);
+        }
+      }
+    }
+  }
+
   function ContextMenu(instance, customOptions){
     this.instance = instance;
     var contextMenu = this;
@@ -92,7 +144,7 @@
         'horizontal_align_left': {
           name:'Text left',
           callback: function () {
-
+            align.call(this, this.getSelectedRange(),'horizontal','htLeft');
           },
           disabled: function () {
             return false;
@@ -101,7 +153,7 @@
         'horizontal_align_center': {
           name:'Text center',
           callback: function () {
-
+            align.call(this, this.getSelectedRange(),'horizontal','htCenter');
           },
           disabled: function () {
             return false;
@@ -110,7 +162,7 @@
         'horizontal_align_right': {
           name:'Text right',
           callback: function () {
-
+            align.call(this, this.getSelectedRange(),'horizontal','htRight');
           },
           disabled: function () {
             return false;
@@ -119,7 +171,7 @@
         'horizontal_align_justify': {
           name:'Text justify',
           callback: function () {
-
+            align.call(this, this.getSelectedRange(),'horizontal','htJustify');
           },
           disabled: function () {
             return false;
@@ -129,7 +181,7 @@
         'vertical_align_top':{
           name:'Text top',
           callback: function () {
-
+            align.call(this, this.getSelectedRange(),'vertical','htTop');
           },
           disabled: function () {
             return false;
@@ -138,7 +190,7 @@
         'vertical_align_middle':{
           name:'Text middle',
           callback: function () {
-
+            align.call(this, this.getSelectedRange(),'vertical','htMiddle');
           },
           disabled: function () {
             return false;
@@ -147,13 +199,12 @@
         'vertical_align_bottom':{
           name:'Text bottom',
           callback: function () {
-
+            align.call(this, this.getSelectedRange(),'vertical','htBottom');
           },
           disabled: function () {
             return false;
           }
         }
-
       }
     };
 

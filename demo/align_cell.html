@@ -73,14 +73,16 @@
         <div class="rowLayout">
           <div class="descLayout">
             <div class="pad" data-jsfiddle="example1">
-              <h2>Merge cells</h2>
+              <h2>Horizontal & vertical alignment</h2>
 
-          <p>To enable the merge cells feature, set the <code>mergeCells</code> option to be <code>true</code> or an
-            array.
-          </p>
-
-          <p>To initialize Handsontable with predefined merged cells, provide merged cells details in form of an array:
-            <code>mergeCells: [{row: 1, col: 1, rowspan: 2, colspan: 2}]</code></p>
+              <p>To initialize Handsontable with predefined horizontal and vertical alignment, provide className cells details in form of a function:
+                <code>
+                  afterCellMetaReset: function() {
+                  this.setCellMeta(3, 4, "className", "htRight htBottom");
+                  }
+                </code>
+              </p>
+              <p>Available classNames: <br />horizontal [htLeft,htCenter,htRight,htJustify] <br />vertical [htTop, htMiddle, htBottom]</p>
 
           <div style="overflow: scroll; height: 200px; width: 400px">
             <div id="example1"></div>
@@ -115,7 +117,8 @@
 
               afterCellMetaReset: function() {
                 this.setCellMeta(0, 0, "className", "htCenter");
-                this.setCellMeta(1, 1, "className", "htBottom");
+                this.setCellMeta(1, 1, "className", "htCenter htMiddle");
+                this.setCellMeta(3, 4, "className", "htRight htBottom");
               }
             });
           </script>

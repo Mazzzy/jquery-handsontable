@@ -1522,9 +1522,7 @@ Handsontable.Core = function (rootElement, userSettings) {
 		if (!priv.cellSettings[row][col]) {
 			priv.cellSettings[row][col] = new priv.columnSettings[col]();
 		}
-
 		priv.cellSettings[row][col][key] = val;
-
 	};
 
 

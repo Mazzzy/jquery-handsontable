@@ -216,8 +216,8 @@ describe('ContextMenu', function () {
       var actions = items.not('.htSeparator');
       var separators = items.filter('.htSeparator');
 
-      expect(actions.length).toEqual(8);
-      expect(separators.length).toEqual(3);
+      expect(actions.length).toEqual(15);
+      expect(separators.length).toEqual(5);
 
       expect(actions.text()).toEqual([
         'Insert row above',
@@ -227,7 +227,14 @@ describe('ContextMenu', function () {
         'Remove row',
         'Remove column',
         'Undo',
-        'Redo'
+        'Redo',
+        'Text left',
+        'Text center',
+        'Text right',
+        'Text justify',
+        'Text top',
+        'Text middle',
+        'Text bottom'
       ].join(''));
 
     });
@@ -540,6 +547,96 @@ describe('ContextMenu', function () {
       expect($(hot.contextMenu.menu).find('tbody td').length).toEqual(2);
     });
 
+    it("should align text left", function () {
+      var hot = handsontable({
+        data: createSpreadsheetData(4, 4),
+        contextMenu: true
+      });
+
+      contextMenu();
+
+      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(8).trigger('mousedown'); //Text left
+      expect(getCellMeta(0,0).className).toEqual('htLeft');
+      expect(getCell(0,0).className).toContain('htLeft');
+    });
+
+    it("should align text center", function () {
+      var hot = handsontable({
+        data: createSpreadsheetData(4, 4),
+        contextMenu: true
+      });
+
+      contextMenu();
+
+      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(9).trigger('mousedown'); //Text center
+      expect(getCellMeta(0,0).className).toEqual('htCenter');
+      expect(getCell(0,0).className).toContain('htCenter');
+    });
+
+    it("should align text right", function () {
+      var hot = handsontable({
+        data: createSpreadsheetData(4, 4),
+        contextMenu: true
+      });
+
+      contextMenu();
+
+      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(10).trigger('mousedown'); //Text right
+      expect(getCellMeta(0,0).className).toEqual('htRight');
+      expect(getCell(0,0).className).toContain('htRight');
+    });
+
+    it("should justify text", function () {
+      var hot = handsontable({
+        data: createSpreadsheetData(4, 4),
+        contextMenu: true
+      });
+
+      contextMenu();
+
+      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(11).trigger('mousedown'); //Text justify
+      expect(getCellMeta(0,0).className).toEqual('htJustify');
+      expect(getCell(0,0).className).toContain('htJustify');
+    });
+
+    it("should vertical align text top", function () {
+      var hot = handsontable({
+        data: createSpreadsheetData(4, 4),
+        contextMenu: true
+      });
+
+      contextMenu();
+
+      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(12).trigger('mousedown'); //Text top
+      expect(getCellMeta(0,0).className).toEqual('htTop');
+      expect(getCell(0,0).className).toContain('htTop');
+    });
+
+    it("should vertical align text middle", function () {
+      var hot = handsontable({
+        data: createSpreadsheetData(4, 4),
+        contextMenu: true
+      });
+
+      contextMenu();
+
+      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(13).trigger('mousedown'); //Text middle
+      expect(getCellMeta(0,0).className).toEqual('htMiddle');
+      expect(getCell(0,0).className).toContain('htMiddle');
+    });
+
+    it("should vertical align text bottom", function () {
+      var hot = handsontable({
+        data: createSpreadsheetData(4, 4),
+        contextMenu: true
+      });
+
+      contextMenu();
+
+      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(14).trigger('mousedown'); //Text bottom
+      expect(getCellMeta(0,0).className).toEqual('htBottom');
+      expect(getCell(0,0).className).toContain('htBottom');
+    });
 
 
   });

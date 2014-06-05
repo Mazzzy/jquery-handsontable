@@ -2,6 +2,10 @@
   'use strict';
 
   function prepareVerticalAlignClass (className, alignment) {
+    if (className.indexOf(alignment)!= -1){
+      return className;
+    }
+
     className =  className
       .replace('htTop','')
       .replace('htMiddle','')
@@ -13,6 +17,10 @@
   }
 
   function prepareHorizontalAlignClass (className, alignment) {
+    if (className.indexOf(alignment)!= -1){
+      return className;
+    }
+
     className =  className
       .replace('htLeft','')
       .replace('htCenter','')

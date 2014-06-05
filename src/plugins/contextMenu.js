@@ -116,11 +116,20 @@
   ContextMenu.prototype.bindMouseEvents = function (){
 
     function contextMenuOpenListener(event){
-
       event.preventDefault();
 
-      if(event.target.nodeName != 'TD' && !(Handsontable.Dom.hasClass(event.target, 'current') && Handsontable.Dom.hasClass(event.target, 'wtBorder'))){
-        return;
+      var showRowHeaders = this.instance.getSettings().rowHeaders,
+          showColHeaders = this.instance.getSettings().colHeaders;
+
+      if(showRowHeaders || showColHeaders) {
+        if (showColHeaders){
+
+        }
+
+      } else {
+        if(event.target.nodeName != 'TD' && !(Handsontable.Dom.hasClass(event.target, 'current') && Handsontable.Dom.hasClass(event.target, 'wtBorder'))){
+          return;
+        }
       }
 
       this.show(event.pageY, event.pageX);
@@ -149,12 +158,9 @@
       this.instance.removeHook('afterScrollHorizontally', this._afterScrollCallback);
       this._afterScrollCallback = null;
     }
-
-
   };
 
-  ContextMenu.prototype.performAction = function (){
-
+  ContextMenu.prototype.performAction = function (event){
     var hot = $(this.menu).handsontable('getInstance');
     var selectedItemIndex = hot.getSelected()[0];
     var selectedItem = hot.getData()[selectedItemIndex];
@@ -168,6 +174,15 @@
     }
 
     var selRange = this.instance.getSelectedRange();
+    //console.log(this.instance);
+    //nextSibling
+
+    if (selRange == undefined) {
+      //console.log(event.target);
+      // TODO - tutaj trzeba jakoś określić wiersz i kolumnę
+      return;
+    }
+
     var normalizedSelection = ContextMenu.utils.normalizeSelection(selRange);
 
     selectedItem.callback.call(this.instance, selectedItem.key, normalizedSelection);
@@ -180,7 +195,6 @@
   };
 
   ContextMenu.prototype.show = function(top, left){
-
     this.menu.style.display = 'block';
 
     $(this.menu)
@@ -491,6 +505,7 @@
   };
 
   ContextMenu.utils.normalizeSelection = function(selRange){
+    console.log(selRange);
     var selection = {
       start: selRange.getTopLeftCorner(),
       end: selRange.getBottomRightCorner()

@@ -258,7 +258,6 @@ TextRenderer readOnly cell
   color: #777;
 }
 
-
 /*
 TextRenderer horizontal alignment
 */
@@ -468,6 +467,30 @@ ul.context-menu-list li {
   background: white;
   color: #999;
   cursor: default;
+}
+
+.htContextMenu button{
+  color: #fff;
+  font-size: 12px;
+  line-height: 12px;
+  height: 20px;
+  padding: 0 5px;
+  margin: 0 1px 0 0;
+  margin-bottom: 5px;
+}
+.htContextMenu button:first-child{
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.htContextMenu button:last-child{
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/*
+Context menu alignment buttons
+*/
+.htContextMenu button.Left{
+
 }
 
 .handsontable td.htSearchResult {

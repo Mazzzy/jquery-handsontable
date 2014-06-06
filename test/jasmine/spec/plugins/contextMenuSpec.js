@@ -216,7 +216,7 @@ describe('ContextMenu', function () {
       var actions = items.not('.htSeparator');
       var separators = items.filter('.htSeparator');
 
-      expect(actions.length).toEqual(15);
+      expect(actions.length).toEqual(10);
       expect(separators.length).toEqual(5);
 
       expect(actions.text()).toEqual([
@@ -228,13 +228,13 @@ describe('ContextMenu', function () {
         'Remove column',
         'Undo',
         'Redo',
-        'Text left',
-        'Text center',
-        'Text right',
-        'Text justify',
-        'Text top',
-        'Text middle',
-        'Text bottom'
+        'left',
+        'center',
+        'right',
+        'justify',
+        'top',
+        'middle',
+        'bottom'
       ].join(''));
 
     });
@@ -403,7 +403,8 @@ describe('ContextMenu', function () {
 
       $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(3).trigger('mousedown'); //Insert col right
 
-      expect(afterCreateColCallback).t
+      expect(afterCreateColCallback).toHaveBeenCalledWith(4, 1, undefined, undefined, undefined);
+      expect(countCols()).toEqual(5);
     });
 
     it("should remove selected rows", function () {
@@ -555,7 +556,10 @@ describe('ContextMenu', function () {
 
       contextMenu();
 
-      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(8).trigger('mousedown'); //Text left
+      var buttonRow = $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(8);
+      var button = buttonRow.find('button.Left');
+
+      button.trigger('mousedown'); //Text left
       expect(getCellMeta(0,0).className).toEqual('htLeft');
       expect(getCell(0,0).className).toContain('htLeft');
     });
@@ -568,7 +572,10 @@ describe('ContextMenu', function () {
 
       contextMenu();
 
-      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(9).trigger('mousedown'); //Text center
+      var buttonRow = $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(8);
+      var button = buttonRow.find('button.Center');
+
+      button.trigger('mousedown'); //Text center
       expect(getCellMeta(0,0).className).toEqual('htCenter');
       expect(getCell(0,0).className).toContain('htCenter');
     });
@@ -581,7 +588,11 @@ describe('ContextMenu', function () {
 
       contextMenu();
 
-      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(10).trigger('mousedown'); //Text right
+      var buttonRow = $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(8);
+      var button = buttonRow.find('button.Right');
+
+
+      button.trigger('mousedown'); //Text right
       expect(getCellMeta(0,0).className).toEqual('htRight');
       expect(getCell(0,0).className).toContain('htRight');
     });
@@ -594,7 +605,10 @@ describe('ContextMenu', function () {
 
       contextMenu();
 
-      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(11).trigger('mousedown'); //Text justify
+      var buttonRow = $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(8);
+      var button = buttonRow.find('button.Justify');
+
+      button.trigger('mousedown'); //Text justify
       expect(getCellMeta(0,0).className).toEqual('htJustify');
       expect(getCell(0,0).className).toContain('htJustify');
     });
@@ -607,7 +621,10 @@ describe('ContextMenu', function () {
 
       contextMenu();
 
-      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(12).trigger('mousedown'); //Text top
+      var buttonRow = $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(9);
+      var button = buttonRow.find('button.Top');
+
+      button.trigger('mousedown'); //Text top
       expect(getCellMeta(0,0).className).toEqual('htTop');
       expect(getCell(0,0).className).toContain('htTop');
     });
@@ -620,7 +637,10 @@ describe('ContextMenu', function () {
 
       contextMenu();
 
-      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(13).trigger('mousedown'); //Text middle
+      var buttonRow = $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(9);
+      var button = buttonRow.find('button.Middle');
+
+      button.trigger('mousedown'); //Text middle
       expect(getCellMeta(0,0).className).toEqual('htMiddle');
       expect(getCell(0,0).className).toContain('htMiddle');
     });
@@ -633,7 +653,10 @@ describe('ContextMenu', function () {
 
       contextMenu();
 
-      $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(14).trigger('mousedown'); //Text bottom
+      var buttonRow = $(hot.contextMenu.menu).find('tbody td').not('.htSeparator').eq(9);
+      var button = buttonRow.find('button.Bottom');
+
+      button.trigger('mousedown'); //Text bottom
       expect(getCellMeta(0,0).className).toEqual('htBottom');
       expect(getCell(0,0).className).toContain('htBottom');
     });

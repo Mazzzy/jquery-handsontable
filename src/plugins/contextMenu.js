@@ -148,65 +148,85 @@
           }
         },
         "hsep4": ContextMenu.SEPARATOR,
-        'horizontal_align_left': {
-          name:'Text left',
-          callback: function () {
-            align.call(this, this.getSelectedRange(),'horizontal','htLeft');
+        'horizontal_alignment': {
+          name: function () {
+            var div = document.createElement('div'),
+              button = document.createElement('button'),
+              lButton = button.cloneNode(true),
+              rButton = button.cloneNode(true),
+              cButton = button.cloneNode(true),
+              jButton = button.cloneNode(true),
+              lText = document.createTextNode('left'),
+              cText = document.createTextNode('center'),
+              rText = document.createTextNode('right'),
+              jText = document.createTextNode('justify');
+
+            lButton.appendChild(lText);
+            cButton.appendChild(cText);
+            rButton.appendChild(rText);
+            jButton.appendChild(jText);
+
+            Handsontable.Dom.addClass(lButton,'Left');
+            Handsontable.Dom.addClass(cButton,'Center');
+            Handsontable.Dom.addClass(rButton,'Right');
+            Handsontable.Dom.addClass(jButton,'Justify');
+
+            div.appendChild(lButton);
+            div.appendChild(cButton);
+            div.appendChild(rButton);
+            div.appendChild(jButton);
+
+            return div.outerHTML;
           },
-          disabled: function () {
-            return false;
-          }
-        },
-        'horizontal_align_center': {
-          name:'Text center',
-          callback: function () {
-            align.call(this, this.getSelectedRange(),'horizontal','htCenter');
-          },
-          disabled: function () {
-            return false;
-          }
-        },
-        'horizontal_align_right': {
-          name:'Text right',
-          callback: function () {
-            align.call(this, this.getSelectedRange(),'horizontal','htRight');
-          },
-          disabled: function () {
-            return false;
-          }
-        },
-        'horizontal_align_justify': {
-          name:'Text justify',
-          callback: function () {
-            align.call(this, this.getSelectedRange(),'horizontal','htJustify');
+          callback: function (key, selection ,event) {
+            var className = event.target.className,
+              type = event.target.tagName;
+
+            if (type === "BUTTON") {
+              if(className) {
+                align.call(this, this.getSelectedRange(),'horizontal','ht' + className );
+              }
+            }
+
           },
           disabled: function () {
             return false;
           }
         },
         "hsep5": ContextMenu.SEPARATOR,
-        'vertical_align_top':{
-          name:'Text top',
-          callback: function () {
-            align.call(this, this.getSelectedRange(),'vertical','htTop');
+        'vertical_alignment': {
+          name: function () {
+            var div = document.createElement('div'),
+              button = document.createElement('button'),
+              tButton = button.cloneNode(true),
+              mButton = button.cloneNode(true),
+              bButton = button.cloneNode(true),
+              tText = document.createTextNode('top'),
+              mText = document.createTextNode('middle'),
+              bText = document.createTextNode('bottom');
+
+            tButton.appendChild(tText);
+            mButton.appendChild(mText);
+            bButton.appendChild(bText);
+
+            Handsontable.Dom.addClass(tButton,'Top');
+            Handsontable.Dom.addClass(mButton,'Middle');
+            Handsontable.Dom.addClass(bButton,'Bottom');
+
+            div.appendChild(tButton);
+            div.appendChild(mButton);
+            div.appendChild(bButton);
+
+            return div.outerHTML;
           },
-          disabled: function () {
-            return false;
-          }
-        },
-        'vertical_align_middle':{
-          name:'Text middle',
-          callback: function () {
-            align.call(this, this.getSelectedRange(),'vertical','htMiddle');
-          },
-          disabled: function () {
-            return false;
-          }
-        },
-        'vertical_align_bottom':{
-          name:'Text bottom',
-          callback: function () {
-            align.call(this, this.getSelectedRange(),'vertical','htBottom');
+          callback: function (key, selection ,event) {
+            var className = event.target.className,
+              type = event.target.tagName;
+            if (type === "BUTTON") {
+              if(className) {
+                align.call(this, this.getSelectedRange(),'vertical','ht' + className );
+              }
+            }
           },
           disabled: function () {
             return false;
@@ -276,8 +296,7 @@
 
   };
 
-  ContextMenu.prototype.performAction = function (){
-
+  ContextMenu.prototype.performAction = function (event){
     var hot = $(this.menu).handsontable('getInstance');
     var selectedItemIndex = hot.getSelected()[0];
     var selectedItem = hot.getData()[selectedItemIndex];
@@ -289,12 +308,10 @@
     if(typeof selectedItem.callback != 'function'){
       return;
     }
-
     var selRange = this.instance.getSelectedRange();
     var normalizedSelection = ContextMenu.utils.normalizeSelection(selRange);
 
-    selectedItem.callback.call(this.instance, selectedItem.key, normalizedSelection);
-
+    selectedItem.callback.call(this.instance, selectedItem.key, normalizedSelection, event);
   };
 
   ContextMenu.prototype.unbindMouseEvents = function () {
@@ -345,6 +362,7 @@
   };
 
   ContextMenu.prototype.renderer = function(instance, TD, row, col, prop, value, cellProperties){
+
     var contextMenu = this;
     var item = instance.getData()[row];
     var wrapper = document.createElement('DIV');
@@ -359,7 +377,7 @@
     if(itemIsSeparator(item)){
       Handsontable.Dom.addClass(TD, 'htSeparator');
     } else {
-      Handsontable.Dom.fastInnerText(wrapper, value);
+      Handsontable.Dom.fastInnerHTML(wrapper, value);
     }
 
     if (itemIsDisabled(item, contextMenu.instance)){
